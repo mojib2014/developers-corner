@@ -1,3 +1,7 @@
 # Developers Corner
 
-A simple web app for developers to ask questions and while they are waiting for an experienced developer who has signed up as a mentor to connect with them via chat the developers will be provided best resources regarding the topic they need help with.
+A simple web Application for developers with the following functionalities: 
+* Check in to reach out to a mentor for help.
+* Get some possible solutions while you wait for direct assistance.
+* Mentors sees your name and the topic you need help with.
+* If the mentor is familiar with the topic then they can choose to chat with students.
