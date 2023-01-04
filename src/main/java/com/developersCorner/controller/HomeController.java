@@ -10,7 +10,7 @@ public class HomeController {
 	@RequestMapping(value = "/")
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("index.jsp");
+		mv.setViewName("index");
 		mv.addObject("message", "Hi ther!");
 		return mv;
 	}

@@ -1,0 +1,35 @@
+@charset "ISO-8859-1";
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+header {
+	background-color: #f8f8f8;
+	width: 100%;
+}
+
+main {
+	padding-top: 3rem;
+}
+
+ul {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul li {
+	padding: 8px;
+}
+
+footer {
+	background-color: #777;
+	color: white;
+	width: 100%;
+	margin-top: 50px;
+	padding: 8px 0;
+}
