@@ -2,26 +2,30 @@ package com.developersCorner.model;
 
 import java.util.Objects;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+
 public class LoginForm {
 
-	private String username;
+	@NotNull(message = "email is required and must be a valid email")
+	@Email
+	private String email;
 	private String password;
 	
 	public LoginForm() {}
 	
-	public LoginForm(String username, String password) {
-		super();
-		this.username = username;
+	public LoginForm(String email, String password) {
+		this.email = email;
 		this.password = password;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 	
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -34,7 +38,7 @@ public class LoginForm {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(password, username);
+		return Objects.hash(password, email);
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class LoginForm {
 		if (getClass() != obj.getClass())
 			return false;
 		LoginForm other = (LoginForm) obj;
-		return Objects.equals(password, other.password) && Objects.equals(username, other.username);
+		return Objects.equals(password, other.password) && Objects.equals(email, other.email);
 	}
 	
 	

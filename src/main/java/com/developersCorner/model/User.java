@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class RegisterForm {
+public class User {
+
+	private Integer id;
 	
 	@NotNull(message = "First Name is required and must be at least 5 characters long")
 	@Size(min = 5, max = 20)
@@ -25,17 +27,24 @@ public class RegisterForm {
 	private String password;
 	
 	
-	public RegisterForm() {}
+	public User() {
+		
+	}
 	
-	public RegisterForm(String firstName, String lastName, String email, String password) {
+	public User(Integer id, String firstName, String lastName, String email, String password) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 	}
-	
-	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -51,8 +60,8 @@ public class RegisterForm {
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String Email) {
+		this.email = Email;
 	}
 	public String getPassword() {
 		return password;
@@ -63,7 +72,7 @@ public class RegisterForm {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, lastName, password, email);
+		return Objects.hash(firstName, id, lastName, password, email);
 	}
 
 	@Override
@@ -74,15 +83,16 @@ public class RegisterForm {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RegisterForm other = (RegisterForm) obj;
-		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(password, other.password) && Objects.equals(email, other.email);
+		User other = (User) obj;
+		return Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(email, other.email);
 	}
 
 	@Override
 	public String toString() {
-		return "RegisterForm [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password="
-				+ password + "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", Email=" + email
+				+ ", password=" + password + "]";
 	}
 	
 	

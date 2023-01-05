@@ -15,9 +15,9 @@
 			<nav>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li><a href="/login">Login</a></li>
+					<li><a href="/users/login">Login</a></li>
 					<li><a href="/chat">Chat</a></li>
-					<li><a href="/register">Register</a></li>
+					<li><a href="/users/register">Register</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -26,8 +26,8 @@
 		<form action="login" method="post">
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="basic-addon1">@</span> <input
-					type="email" name="username" class="form-control"
-					placeholder="email@example.com" aria-label="Username"
+					type="email" name="email" class="form-control"
+					placeholder="email@example.com" aria-label="Email"
 					aria-describedby="basic-addon1" required>
 			</div>
 			<div class="input-group mb-3">
