@@ -2,9 +2,11 @@ package com.developersCorner.model;
 
 import java.util.Objects;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
 
 public class RegisterForm {
 	
@@ -23,17 +25,6 @@ public class RegisterForm {
 	@NotNull(message = "Password is required and must be at least 6 characters long")
 	@Size(min = 6, max = 20)
 	private String password;
-	
-	
-	public RegisterForm() {}
-	
-	public RegisterForm(String firstName, String lastName, String email, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-	}
 	
 	
 	public String getFirstName() {

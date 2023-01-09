@@ -2,14 +2,17 @@ package com.developersCorner.model;
 
 import java.util.Objects;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 public class LoginForm {
 
-	@NotNull(message = "email is required and must be a valid email")
-	@Email
+	@NotNull(message = "Email is required and must be a valid email")
 	private String email;
+	
+	@NotNull(message = "Password is required and must be at least 6 characters")
+	@Size(message = "Password must be at least 6 characters", min = 6, max = 20)
 	private String password;
 	
 	public LoginForm() {}

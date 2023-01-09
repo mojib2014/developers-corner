@@ -31,6 +31,7 @@ angular.module('developersCorner').controller('UserController', ['$scope', 'User
 		if ($scope.user.id === null) {
 			console.log('Registering new user', $scope.user);
 			registerUser($scope.user);
+		/*	setTimeout(() => window.location = "/", 2000);*/
 		} else {
 
 			console.log('User updated with id ', $scope.user.id);

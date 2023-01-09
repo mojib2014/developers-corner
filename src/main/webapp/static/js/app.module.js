@@ -4,4 +4,3 @@
 'use strict';
 
 const app = angular.module('developersCorner', []);
-
