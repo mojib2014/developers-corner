@@ -9,6 +9,12 @@ header {
 	width: 100%;
 }
 
+header nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 main {
 	padding-top: 3rem;
 }
@@ -16,14 +22,20 @@ main {
 ul {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-ul li {
-	padding: 8px;
+ul li a {
+	display: block;
+	padding: 10px 8px;
+}
+
+.active {
+	background-color: #999;
+	color: #f8f8f8;
 }
 
 footer {
@@ -32,4 +44,40 @@ footer {
 	width: 100%;
 	margin-top: 50px;
 	padding: 8px 0;
+}
+
+.firstName.ng-valid {
+	background-color: lightgreen;
+}
+
+.firstName.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.firstName.ng-dirty.ng-invalid-minlength {
+	background-color: yellow;
+}
+
+.lastName.ng-valid {
+	background-color: lightgreen;
+}
+
+.lastName.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.lastName.ng-dirty.ng-invalid-minlength {
+	background-color: yellow;
+}
+
+.email.ng-valid {
+	background-color: lightgreen;
+}
+
+.email.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.email.ng-dirty.ng-invalid-email {
+	background-color: yellow;
 }
