@@ -16,7 +16,7 @@
 	<header>
 		<div class="container">
 			<nav>
-				<a class="logo" href="#">Developers Corner</a>
+				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
 					<li><a href="/login">Login</a></li>

@@ -3,21 +3,30 @@
  */
 // StackExchange and MDN api urls
 let stackExchangeQuery = "https://api.stackexchange.com/2.3/search?order=desc&sort=activity&site=stackoverflow&tagged=";
-const mdnQuery = "https://developer.mozilla.org/en-US/search.json?locale=en-US&q=";
+let mdnQuery = "https://developer.mozilla.org/en-US/search.json?locale=en-US&q=";
 
 // Dom elements
 const chatBtn = document.querySelector(".chat-btn");
 const checkinForm = document.querySelector("#check-in-form");
 const possobleSolutionsContainer = document.querySelector('.possible-solutions');
+const yourStatusContainer = document.querySelector('.your-status');
 
 // User role (Student or Mentor)
 let role = "";
 
-// Fetch topic from Stackoverflow
+// Fetch topics from Stackoverflow
 const fetchResourceFromStackOverFlow = async(url) => {
 	const result = await fetch(url);
 	const res = await result.json();
 	return res;	
+}
+
+// Fetch topics from mdn
+const fetchResourceFromMdn = async(url) => {
+	const result = await fetch(url);
+	const res = await result.json();
+	console.log(res);
+	return res;
 }
 
 // Refresh the page to search for a new topic
@@ -26,7 +35,7 @@ const refreshPage = () => {
 }
 
 // Generate HTML for fetched data from Stackoverflow
-const generateHtmlForSearchQuery = (items) => {
+const generateHtmlForStackOverflowSearchQuery = (items) => {
 	const newQuestionBtn = document.createElement('button');
 	newQuestionBtn.className = 'new-question btn btn-warning float-right mb-3';
 	newQuestionBtn.innerText = 'New Question';
@@ -44,7 +53,7 @@ const generateHtmlForSearchQuery = (items) => {
 	
 	items.forEach(item => {
 		const solutionsDetials = document.createElement('div');
-		solutionsContainer.className = 'shadow-md roudned p-3';
+		solutionsDetials.className = 'bg-body border border-gray shadow-lg roudned p-3';
 		
 		const title = document.createElement('h3');
 		title.innerText = item.title;
@@ -67,6 +76,11 @@ const generateHtmlForSearchQuery = (items) => {
 	possobleSolutionsContainer.replaceChildren(solutionsContainer);
 }
 
+// Generate HTML form MDN Query
+const generateHtmlForMdnQuery = (items) => {
+	
+}
+
 
 // Event Listener for checkin form
 checkinForm.addEventListener('submit', async (e) => {
@@ -74,12 +88,22 @@ checkinForm.addEventListener('submit', async (e) => {
 	const formData = new FormData(checkinForm);
 	const query = formData.get('topic');
 	const tags = formData.get('tags');
+	role = formData.get('role');
+	const username = formData.get('username');
+	
+	// Create/update user status
+	const p = document.createElement('p');
+	p.innerText = username + " " + role;
+	yourStatusContainer.appendChild(p);
+
 	stackExchangeQuery +=  tags + '&intitle=' + query;
 	
 	const res = await fetchResourceFromStackOverFlow(stackExchangeQuery);
 	
-	generateHtmlForSearchQuery(res.items);
+	generateHtmlForStackOverflowSearchQuery(res.items);
+	mdnQuery =  "https://cors-anywhere.herokuapp.com/" + mdnQuery;
+	mdnQuery += tags;
+	fetchResourceFromMdn(mdnQuery);
 	
 	console.log(res);
 });
-
