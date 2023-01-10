@@ -6,7 +6,7 @@
 
 angular.module('developersCorner').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
 
-	$scope.user = { id: null, firstName: '', lastName: '', email: '', password: '' };
+	$scope.user = { id: null, firstName: '', lastName: '', nickName: '', email: '', password: '' };
 	$scope.users = [];
 	$scope.submit = submit;
 
@@ -15,7 +15,6 @@ angular.module('developersCorner').controller('UserController', ['$scope', 'User
 	function fetchAllUsers() {
 		UserService.fetchAllUsers()
 			.then((data) => {
-				console.log('fetch all users: ', data);
 				$scope.users = data
 			})
 			.catch((err) => console.log(err));
@@ -29,7 +28,6 @@ angular.module('developersCorner').controller('UserController', ['$scope', 'User
 
 	function submit() {
 		if ($scope.user.id === null) {
-			console.log('Registering new user', $scope.user);
 			registerUser($scope.user);
 		/*	setTimeout(() => window.location = "/", 2000);*/
 		} else {

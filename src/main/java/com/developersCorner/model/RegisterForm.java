@@ -18,6 +18,8 @@ public class RegisterForm {
 	@Size(min = 5, max = 20)
 	private String lastName;
 	
+	private String nickName;
+	
 	@NotNull(message = "email is required and must be a valid email")
 	@Email
 	private String email;
@@ -35,6 +37,12 @@ public class RegisterForm {
 	}
 	public String getLastName() {
 		return lastName;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -54,7 +62,7 @@ public class RegisterForm {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, lastName, password, email);
+		return Objects.hash(firstName, lastName, nickName, password, email);
 	}
 
 	@Override
@@ -67,12 +75,13 @@ public class RegisterForm {
 			return false;
 		RegisterForm other = (RegisterForm) obj;
 		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(nickName, other.nickName)
 				&& Objects.equals(password, other.password) && Objects.equals(email, other.email);
 	}
 
 	@Override
 	public String toString() {
-		return "RegisterForm [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password="
+		return "RegisterForm [firstName=" + firstName + ", lastName=" + lastName + ", nickName=" + nickName + ", email=" + email + ", password="
 				+ password + "]";
 	}
 	

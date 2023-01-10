@@ -18,7 +18,6 @@ angular.module('developersCorner').factory('UserService', ['$http', '$q', functi
 		const defered = $q.defer();
 		$http.get(URL)
 			.then((res) => {
-				console.log("user service", res.data);
 				defered.resolve(res.data)
 			}).catch((err) => {
 				console.log('Error fetching users', err);
@@ -30,7 +29,6 @@ angular.module('developersCorner').factory('UserService', ['$http', '$q', functi
 
 	function registerUser(user) {
 		const defered = $q.defer();
-
 		$http.post(URL + "/register", user)
 			.then((res) => defered.resolve(res.data))
 			.catch((err) => {
