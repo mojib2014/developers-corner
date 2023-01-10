@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
@@ -42,10 +46,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/users/register", method = RequestMethod.POST)
 	public ResponseEntity<Void> register(@RequestBody @Valid RegisterForm form) {
-		System.out.println("register contrroler " + form.toString());
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("registerForm");
-//		mv.addObject("message", "Succefully registered!");
+		logger.info("register contrroler {}", form);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
@@ -63,7 +64,7 @@ public class UserController {
 		}else {
 			LoginForm newUser = new LoginForm(form.getEmail(), form.getPassword());
 			
-			System.out.println(newUser.getEmail());
+			logger.info("Logging in {}", form);
 			mv.setViewName("loginForm");
 			mv.addObject("user", newUser.getEmail());
 			
@@ -77,10 +78,10 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> users = new ArrayList<>();
 		
-		User user = new User(1, "John", "Doe", "john.doe@email.com", "password");
-		User user2 = new User(1, "Mojib", "Mohammad", "mojib.mohammad@email.com", "password");
-		User user3 = new User(1, "David", "Garcia", "david.doe@email.com", "password");
-		User user4 = new User(1, "Tom", "Jerry", "tom.doe@email.com", "password");
+		User user = new User(1L, "John", "Doe", "john.doe@email.com", "password");
+		User user2 = new User(2L, "Mojib", "Mohammad", "mojib.mohammad@email.com", "password");
+		User user3 = new User(3L, "David", "Garcia", "david.doe@email.com", "password");
+		User user4 = new User(4L, "Tom", "Jerry", "tom.doe@email.com", "password");
 		users.add(user);
 		users.add(user2);
 		users.add(user3);

@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 public class User {
 
 
-	private Integer id;
+	private Long id;
 	
 	@NotNull(message = "First Name is required and must be at least 5 characters long")
 	@Size(min = 5, max = 20)
@@ -32,7 +32,7 @@ public class User {
 		
 	}
 	
-	public User(Integer id, String firstName, String lastName, String email, String password) {
+	public User(Long id, String firstName, String lastName, String email, String password) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -40,10 +40,10 @@ public class User {
 		this.email = email;
 		this.password = password;
 	}
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getFirstName() {

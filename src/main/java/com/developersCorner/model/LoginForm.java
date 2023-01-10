@@ -55,6 +55,10 @@ public class LoginForm {
 		LoginForm other = (LoginForm) obj;
 		return Objects.equals(password, other.password) && Objects.equals(email, other.email);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "LoginForm [email=" + email + ", password=" + password + "]";
+	}
 	
 }
