@@ -8,7 +8,7 @@ public interface UserDao {
 	
 	List<User> findAllUsers();
 	User findById(Long id);
-	User findByName(String name);
+	User findByEmail(String email);
 	void saveUser(User user);
 	void updateUser(User user);
 	void deleteById(Long id);

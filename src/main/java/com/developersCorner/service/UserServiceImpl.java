@@ -2,47 +2,60 @@ package com.developersCorner.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.developersCorner.dao.UserDao;
+import com.developersCorner.dto.UserRegistrationDto;
 import com.developersCorner.model.User;
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserService{
 
+	@Autowired
+	private UserDao userDao;
+	
 	@Override
 	public List<User> findAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.findAllUsers();
 	}
 
 	@Override
 	public User findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.findById(id);
 	}
 
 	@Override
-	public User findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public User findByEmail(String email) {
+		return userDao.findByEmail(email);
 	}
 
 	@Override
-	public void saveUser(User user) {
-		// TODO Auto-generated method stub
+	public void saveUser(UserRegistrationDto user) {
+		User newUser = new User(user.getFirstName(), user.getLastName(), 
+				user.getNickName(), user.getEmail(), user.getPassword(),
+				user.getRole());
 		
+		userDao.saveUser(newUser);
 	}
 
 	@Override
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
+	public void updateUser(Long id, UserRegistrationDto dto) {
+		User user = userDao.findById(id);
+		user.setFirstName(dto.getFirstName());
+		user.setLastName(dto.getLastName());
+		user.setNickName(dto.getNickName());
+		user.setEmail(dto.getEmail());
+		user.setPassword(dto.getPassword());
+		user.setRole(dto.getRole());
+		userDao.updateUser(user);
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-		
+		userDao.deleteById(id);
 	}
 
 }

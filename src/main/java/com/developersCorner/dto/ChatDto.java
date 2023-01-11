@@ -1,4 +1,4 @@
-package com.developersCorner.model;
+package com.developersCorner.dto;
 
 public class ChatDto {
 	

@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.developersCorner.model.LoginForm;
+import com.developersCorner.dto.UserLoginDto;
 
 @Controller
 public class MainController {
@@ -18,7 +18,7 @@ public class MainController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-		model.addAttribute("loginForm", new LoginForm());
+		model.addAttribute("loginForm", new UserLoginDto());
 		return "loginForm";
 	}
 	

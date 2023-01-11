@@ -1,4 +1,4 @@
-package com.developersCorner.model;
+package com.developersCorner.dto;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-public class LoginForm {
+public class UserLoginDto {
 
 	@NotNull(message = "Email is required and must be a valid email")
 	private String email;
@@ -15,9 +15,9 @@ public class LoginForm {
 	@Size(message = "Password must be at least 6 characters", min = 6, max = 20)
 	private String password;
 	
-	public LoginForm() {}
+	public UserLoginDto() {}
 	
-	public LoginForm(String email, String password) {
+	public UserLoginDto(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
@@ -52,7 +52,7 @@ public class LoginForm {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LoginForm other = (LoginForm) obj;
+		UserLoginDto other = (UserLoginDto) obj;
 		return Objects.equals(password, other.password) && Objects.equals(email, other.email);
 	}
 
