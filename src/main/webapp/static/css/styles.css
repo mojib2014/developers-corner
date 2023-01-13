@@ -34,50 +34,24 @@ ul li a {
 }
 
 .active {
-	background-color: #999;
-	color: #f8f8f8;
+	background-color: dodgerblue;
+	color: white;
 }
 
+/******************** Modal *****************/
+.modal-container {
+	position: absolute;
+	left: 25vw;
+	right: 25vw;
+	top: 25vh;
+	bottom: 25vh;
+}
+
+/******************** Modal *****************/
 footer {
 	background-color: #777;
 	color: white;
 	width: 100%;
 	margin-top: 50px;
 	padding: 8px 0;
-}
-
-.firstName.ng-valid {
-	background-color: lightgreen;
-}
-
-.firstName.ng-dirty.ng-invalid-required {
-	background-color: red;
-}
-
-.firstName.ng-dirty.ng-invalid-minlength {
-	background-color: yellow;
-}
-
-.lastName.ng-valid {
-	background-color: lightgreen;
-}
-
-.lastName.ng-dirty.ng-invalid-required {
-	background-color: red;
-}
-
-.lastName.ng-dirty.ng-invalid-minlength {
-	background-color: yellow;
-}
-
-.email.ng-valid {
-	background-color: lightgreen;
-}
-
-.email.ng-dirty.ng-invalid-required {
-	background-color: red;
-}
-
-.email.ng-dirty.ng-invalid-email {
-	background-color: yellow;
 }

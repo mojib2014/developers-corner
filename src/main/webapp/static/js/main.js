@@ -76,8 +76,28 @@ const generateHtmlForStackOverflowSearchQuery = (items) => {
 	possobleSolutionsContainer.replaceChildren(solutionsContainer);
 }
 
-// Generate HTML form MDN Query
+// Generate HTML for MDN Query
 const generateHtmlForMdnQuery = (items) => {
+	
+}
+
+const saveQuestionToDB = async (formData) => {
+	const question = {
+		username: formData.get("username"),
+		tags: formData.get("tags"),
+		question: formData.get("topic"),
+		userId: 1,
+	};
+	
+	fetch("http://localhost:8080/user/questions", {
+		method: "POST",
+		mode: "cors",
+		credentials: 'same-origin',
+		body: JSON.stringify(question),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
 	
 }
 
@@ -86,6 +106,7 @@ const generateHtmlForMdnQuery = (items) => {
 checkinForm.addEventListener('submit', async (e) => {
 	e.preventDefault();
 	const formData = new FormData(checkinForm);
+	saveQuestionToDB(formData);
 	const query = formData.get('topic');
 	const tags = formData.get('tags');
 	role = formData.get('role');

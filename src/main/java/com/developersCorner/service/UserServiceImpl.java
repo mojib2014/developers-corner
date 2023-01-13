@@ -1,5 +1,6 @@
 package com.developersCorner.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
 	public void saveUser(UserRegistrationDto user) {
 		User newUser = new User(user.getFirstName(), user.getLastName(), 
 				user.getNickName(), user.getEmail(), user.getPassword(),
-				user.getRole());
+				user.getRole(), LocalDateTime.now());
 		
 		userDao.saveUser(newUser);
 	}

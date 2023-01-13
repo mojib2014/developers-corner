@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.developersCorner.exception.ResourceNotFoundException;
 import com.developersCorner.model.User;
 
 @Repository("userDao")
@@ -28,12 +29,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		String hql = "FROM User U WHERE U.id = ?1";
 		Query query = getSession().createQuery(hql);
 		query.setParameter(1, id);
-		User user = (User) query.getResultList().get(0);
-		return user;
+		List<?> result = query.getResultList();
+		if(result.isEmpty()) throw new ResourceNotFoundException("User id: " + id + " does not exist.");
+		return (User) result.get(0);
 	}
 
 	@Override
 	public User findByEmail(String email) {
+		@SuppressWarnings("deprecation")
 		Criteria criteria = getSession().createCriteria(User.class);
 		criteria.add(Restrictions.eq("email", email));
 		return (User) criteria.uniqueResult();

@@ -26,4 +26,14 @@ public class MainController {
 	public String register() {
 		return "registerForm";
 	}
+	
+	@RequestMapping(value="/questions", method = RequestMethod.GET)
+	public String questions() {
+		return "questions";
+	}
+	
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
+	public String profile() {
+		return "profile";
+	}
 }

@@ -41,42 +41,10 @@ public class UserController {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
-	
-	//----------------- Register user ----------------------------
-	@RequestMapping(value = "/users/register", method = RequestMethod.POST)
-	public ResponseEntity<Void> register(@RequestBody @Valid UserRegistrationDto form) {
-		logger.info("register contrroler {}", form);
-		userService.saveUser(form);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
-	}
-	
-	//------------------- Login user --------------------------
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView login(@Valid @ModelAttribute("loginForm") UserLoginDto form, BindingResult bindingResult) {
-		ModelAndView mv = new ModelAndView();
-		if(bindingResult.hasErrors()) {
-			bindingResult
-			.getFieldErrors()
-			.stream()
-			.forEach(f -> mv.addObject("errors", f.getField() + ": " + f.getDefaultMessage()));
-			 mv.setViewName("loginForm");
-			return mv;
-		}else {
-			UserLoginDto newUser = new UserLoginDto(form.getEmail(), form.getPassword());
-			
-			logger.info("Logging in {}", form);
-			mv.setViewName("loginForm");
-			mv.addObject("user", newUser.getEmail());
-			
-			return mv;			
-		}
-		
-	}
-	
+
 	//-------------------- Retrieve All Users ---------------------------------
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<List<User>> getAllUsers(Exception e) {
 		List<User> users = userService.findAllUsers();
 		
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);

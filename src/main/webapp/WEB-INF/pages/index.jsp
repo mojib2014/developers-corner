@@ -19,9 +19,11 @@
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li><a href="/login">Login</a></li>
-					<li><a href="/chat">Chat</a></li>
+					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
+					<li ng-show="isLoggedIn"><a href="#">Logout</a></li>
+					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
+					<li><a href="/profile">Profile</a></li>
 				</ul>
 			</nav>
 		</div>
