@@ -31,7 +31,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		Query query = getSession().createQuery(hql);
 		query.setParameter(1, id);
 		List<?> result = query.getResultList();
-		if(result.isEmpty()) throw new ResourceNotFoundException("User id: " + id + " does not exist.");
+		if (result.isEmpty())
+			throw new ResourceNotFoundException("User id: " + id + " does not exist.");
 		return (User) result.get(0);
 	}
 
@@ -40,18 +41,18 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		@SuppressWarnings("deprecation")
 		Criteria criteria = getSession().createCriteria(User.class);
 		criteria.add(Restrictions.eq("email", email));
-		return Optional.ofNullable((User) criteria.uniqueResult());
+		User user = (User) criteria.uniqueResult();
+		return Optional.of(user);
 	}
 
 	@Override
-	public void saveUser(User user) { 
+	public void saveUser(User user) {
 		persist(user);
 	}
 
 	@Override
-	public void updateUser(User user) { 
-		String hql = "UPDATE User U SET U.firstName = ?1,"
-				+ " U.lastName = ?2, U.nickName = ?3, U.email = ?4,"
+	public void updateUser(User user) {
+		String hql = "UPDATE User U SET U.firstName = ?1," + " U.lastName = ?2, U.nickName = ?3, U.email = ?4,"
 				+ " U.password = ?5, U.type = ?6 WHERE U.id = ?7";
 		Query query = getSession().createQuery(hql);
 		query.setParameter(1, user.getFirstName());
@@ -65,7 +66,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	}
 
 	@Override
-	public void deleteById(Long id) { 
+	public void deleteById(Long id) {
 		String hql = "DELETE User U WHERE U.id = ?1";
 		Query query = getSession().createQuery(hql);
 		query.setParameter(1, id);

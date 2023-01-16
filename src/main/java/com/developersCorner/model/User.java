@@ -1,6 +1,7 @@
 package com.developersCorner.model;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -53,8 +54,8 @@ public class User implements UserDetails {
 	@NotNull(message = "Role is a required field")
 	private String type;
 	
-	@Enumerated(EnumType.STRING)
 	@JsonIgnore
+	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -125,7 +126,7 @@ public class User implements UserDetails {
 	@Override
 	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(role.name()));
+		return Arrays.asList(new SimpleGrantedAuthority(role.name()));
 	}
 
 	@Override

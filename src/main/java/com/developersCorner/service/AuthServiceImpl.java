@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
 	public AuthResponse authenticate(UserLoginDto dto) {
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
-		User user = userDao.findByEmail(dto.getEmail()).orElseThrow();
+		User user = userDao.findByEmail(dto.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));;
 		String jwtToken = jwtService.generateToken(user);
 		return new AuthResponse(jwtToken);
 	}
