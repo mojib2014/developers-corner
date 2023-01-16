@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
@@ -34,14 +32,45 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+//	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
+	
+	//----------------- Register user ----------------------------
+	@RequestMapping(value = "/users/register", method = RequestMethod.POST)
+	public ResponseEntity<Void> register(@RequestBody @Valid UserRegistrationDto form) {
 
+		userService.saveUser(form);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	}
+	
+	//------------------- Login user --------------------------
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView login(@Valid @ModelAttribute("loginForm") UserLoginDto form, BindingResult bindingResult) {
+		ModelAndView mv = new ModelAndView();
+		if(bindingResult.hasErrors()) {
+			bindingResult
+			.getFieldErrors()
+			.stream()
+			.forEach(f -> mv.addObject("errors", f.getField() + ": " + f.getDefaultMessage()));
+			 mv.setViewName("loginForm");
+			return mv;
+		}else {
+			UserLoginDto newUser = new UserLoginDto(form.getEmail(), form.getPassword());
+			
+			mv.setViewName("loginForm");
+			mv.addObject("user", newUser.getEmail());
+			
+			return mv;			
+		}
+		
+	}
+	
 	//-------------------- Retrieve All Users ---------------------------------
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> getAllUsers(Exception e) {

@@ -1,6 +1,6 @@
 package com.developersCorner.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import com.developersCorner.model.User;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
@@ -30,14 +30,14 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User findByEmail(String email) {
-		return userDao.findByEmail(email);
+		return userDao.findByEmail(email).orElseThrow();
 	}
 
 	@Override
 	public void saveUser(UserRegistrationDto user) {
 		User newUser = new User(user.getFirstName(), user.getLastName(), 
 				user.getNickName(), user.getEmail(), user.getPassword(),
-				user.getRole(), LocalDateTime.now());
+				user.getType(), LocalDate.now());
 		
 		userDao.saveUser(newUser);
 	}
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 		user.setNickName(dto.getNickName());
 		user.setEmail(dto.getEmail());
 		user.setPassword(dto.getPassword());
-		user.setRole(dto.getRole());
+		user.setType(dto.getType());
 		userDao.updateUser(user);
 	}
 

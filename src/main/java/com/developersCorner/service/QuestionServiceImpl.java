@@ -1,6 +1,6 @@
 package com.developersCorner.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -51,7 +51,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public void saveQuestion(QuestionDto q) {
 		User user = userDao.findById(q.getUserId());
-		Question question = new Question(q.getUsername(), q.getTags(), q.getQuestion(), LocalDateTime.now(), user);
+		Question question = new Question(q.getUsername(), q.getTags(), q.getQuestion(), LocalDate.now(), user);
 		questionDao.saveQuestion(question);
 	}
 

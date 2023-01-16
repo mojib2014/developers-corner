@@ -1,11 +1,11 @@
 package com.developersCorner.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,17 +32,17 @@ public class Question {
 	private String question;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP")
-	private LocalDateTime createdAt;
+	private LocalDate createdAt;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "userId")
 	@JsonManagedReference("questions")
 	private User user;
 
 	public Question() {
 	}
 
-	public Question(Long id, String username, String tags, String question, LocalDateTime createdAt, User user) {
+	public Question(Long id, String username, String tags, String question, LocalDate createdAt, User user) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -52,7 +52,7 @@ public class Question {
 		this.user = user;
 	}
 
-	public Question(String username, String tags, String question, LocalDateTime createdAt, User user) {
+	public Question(String username, String tags, String question, LocalDate createdAt, User user) {
 		super();
 		this.username = username;
 		this.tags = tags;
@@ -93,11 +93,11 @@ public class Question {
 		this.question = question;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
 

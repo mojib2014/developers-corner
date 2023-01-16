@@ -3,25 +3,49 @@
  */
 
 angular.module('developersCorner').factory('ProfileService', ["$http", "$q", function($http, $q) {
-	const URL = 'http://localhost:8080/users/user/profile';
+	const URL = 'http://localhost:8080/users/';
 	
 	const factory = {
-		getProfile, 
+		getUserProfile, 
+		editUserProfile,
+		deleteUserProfile
 
 	}
+	return factory;
 	
-	function getProfile(user) {
+	function getUserProfile(userId) {
 		const defered = $q.defer();
 		
-		$http.post(URL + "/login", user)
+		$http.get(URL + userId)
 			.then((res) => {
 				defered.resolve(res.data);
-				localStorage.setItem("user", data);
 			})
 			.catch((err) => defered.reject(err));
 			
 		return defered.promise;
 	}
 	
-	return factory;
+	function editUserProfile(user) {
+		const defered = $q.defer();
+		
+		$http.put(URL + user.id, user)
+			.then((res) => {
+				defered.resolve(res.data);
+			})
+			.catch((err) => defered.reject(err));
+			
+		return defered.promise;
+	}
+	
+	function deleteUserProfile(userId) {
+		const defered = $q.defer();
+		
+		$http.delete(URL + userId)
+			.then((res) => {
+				defered.resolve(res.data);
+			})
+			.catch((err) => defered.reject(err));
+			
+		return defered.promise;
+	}
 }]);

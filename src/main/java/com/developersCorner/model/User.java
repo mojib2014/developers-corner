@@ -1,12 +1,15 @@
 package com.developersCorner.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +19,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,24 +48,35 @@ public class User {
 	private String email;
 
 	@NotNull(message = "Password is required and must be at least 6 characters long")
-	@Size(min = 6, max = 20)
 	private String password;
 
 	@NotNull(message = "Role is a required field")
-	private String role;
+	private String type;
+	
+	@Enumerated(EnumType.STRING)
+	@JsonIgnore
+	private Role role;
 
 	@Column(nullable = false, columnDefinition = "TIMESTAMP")
-	private LocalDateTime createdAt;
+	private LocalDate createdAt;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", 
+			fetch = FetchType.EAGER, 
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
 	@JsonBackReference("user")
 	private List<Question> questions;
 
 	public User() {
 	}
 
-	public User(Long id, String firstName, String lastName, String nickName, String email, String password, String role,
-			LocalDateTime createdAt, List<Question> questions) {
+	public User(Long id, String firstName, 
+			String lastName, String nickName, 
+			String email, String password, 
+			String type,
+			LocalDate createdAt, 
+			List<Question> questions) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -65,40 +84,75 @@ public class User {
 		this.nickName = nickName;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.type = type;
 		this.createdAt = createdAt;
 		this.questions = questions;
 	}
 
-	public User(String firstName, String lastName, String nickName, String email, String password, String role,
-			LocalDateTime createdAt, List<Question> questions) {
+	public User(String firstName, String lastName, 
+			String nickName, String email, 
+			String password, String type,
+			LocalDate createdAt, 
+			List<Question> questions) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.nickName = nickName;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.type = type;
 		this.createdAt = createdAt;
 		this.questions = questions;
 	}
 
 	public User(
-			@NotNull(message = "First Name is required and must be at least 5 characters long") @Size(min = 5, max = 20) String firstName,
-			@NotNull(message = "Last Name is required and must be at least 5 characters long") @Size(min = 5, max = 20) String lastName,
-			String nickName, @NotNull(message = "Email is required and must be a valid email") String email,
-			@NotNull(message = "Password is required and must be at least 6 characters long") @Size(min = 6, max = 20) String password,
-			@NotNull(message = "Role is a required field") String role, LocalDateTime createdAt) {
+			String firstName,
+			String lastName,
+			String nickName,
+			String email,
+			String password,
+			String type, LocalDate createdAt) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.nickName = nickName;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.type = type;
 		this.createdAt = createdAt;
 	}
 
+	@Override
+	@JsonIgnore
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -147,19 +201,19 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public String getType() {
+		return type;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -170,10 +224,14 @@ public class User {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
+	
+	public String getRole() {
+		return role.name();
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(createdAt, email, firstName, id, lastName, nickName, password, questions, role);
+		return Objects.hash(createdAt, email, firstName, id, lastName, nickName, password, questions, role, type);
 	}
 
 	@Override
@@ -189,14 +247,13 @@ public class User {
 				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(nickName, other.nickName)
 				&& Objects.equals(password, other.password) && Objects.equals(questions, other.questions)
-				&& Objects.equals(role, other.role);
+				&& role == other.role && Objects.equals(type, other.type);
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", nickName=" + nickName
-				+ ", email=" + email + ", password=" + password + ", role=" + role + ", createdAt=" + createdAt
-				+ ", questions=" + questions + "]";
+				+ ", email=" + email + ", password=" + password + ", type=" + type + ", role=" + role + ", createdAt="
+				+ createdAt + ", questions=" + questions + "]";
 	}
-
 }

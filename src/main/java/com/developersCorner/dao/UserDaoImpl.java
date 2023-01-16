@@ -2,6 +2,7 @@
 package com.developersCorner.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Query;
 
@@ -35,11 +36,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	}
 
 	@Override
-	public User findByEmail(String email) {
+	public Optional<User> findByEmail(String email) {
 		@SuppressWarnings("deprecation")
 		Criteria criteria = getSession().createCriteria(User.class);
 		criteria.add(Restrictions.eq("email", email));
-		return (User) criteria.uniqueResult();
+		return Optional.ofNullable((User) criteria.uniqueResult());
 	}
 
 	@Override
@@ -51,14 +52,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	public void updateUser(User user) { 
 		String hql = "UPDATE User U SET U.firstName = ?1,"
 				+ " U.lastName = ?2, U.nickName = ?3, U.email = ?4,"
-				+ " U.password = ?5, U.role = ?6 WHERE U.id = ?7";
+				+ " U.password = ?5, U.type = ?6 WHERE U.id = ?7";
 		Query query = getSession().createQuery(hql);
 		query.setParameter(1, user.getFirstName());
 		query.setParameter(2, user.getLastName());
 		query.setParameter(3, user.getNickName());
 		query.setParameter(4, user.getEmail());
 		query.setParameter(5, user.getPassword());
-		query.setParameter(6, user.getRole());
+		query.setParameter(6, user.getType());
 		query.setParameter(7, user.getId());
 		query.executeUpdate();
 	}

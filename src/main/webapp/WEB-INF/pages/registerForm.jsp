@@ -7,8 +7,12 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"
 	type="text/javascript"></script>
+<script type="text/javascript"
+	src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
 <script src="/static/js/app.module.js" type="text/javascript"></script>
 <script src="/static/js/service/user.service.js" defer
+	type="text/javascript"></script>
+<script src="/static/js/service/auth.service.js" defer
 	type="text/javascript"></script>
 <script src="/static/js/controller/user.controller.js" defer
 	type="text/javascript"></script>
@@ -18,15 +22,16 @@
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
 <title>Developers Corner | Register Page</title>
 </head>
-<body data-ng-app="developersCorner" class="ng-cloak">
+<body data-ng-app="developersCorner" class="ng-cloak"
+	ng-controller="UserController">
 	<header>
 		<div class="container">
 			<nav>
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
-					<li ng-show="isLoggedIn"><a href="#">Logout</a></li>
+					<li ng-show="!currentUser"><a href="/login">Login</a></li>
+					<li ng-show="currentUser"><a href="#" ng-click="logout()">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>
@@ -34,7 +39,7 @@
 			</nav>
 		</div>
 	</header>
-	<main class="main" ng-controller="UserController">
+	<main class="main">
 		<div class="container">
 			<div class="panel panel-default">
 				<div class="panel-heading mb-3">
@@ -98,6 +103,20 @@
 								</svg>
 							</span> <input type="text" ng-model="user.nickName" name="nickName"
 								placeholder="Johny" class="form-control" aria-label="Nick Name" />
+
+						</div>
+
+						<!-- Role (Student or Mentor) -->
+						<div class="input-group mb-3">
+							<span class="input-group-text" id="basic-addon1"> <svg
+									xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+									fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+	  								<path
+										d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+								</svg>
+							</span> <input type="text" ng-model="user.type" name="type"
+								placeholder="Student or Mentor" class="form-control"
+								aria-label="Type" />
 
 						</div>
 
@@ -173,7 +192,7 @@
 							<td>
 								<button type="button" ng-click="edit(user.id)"
 									class="btn btn-success custom-width">Edit</button>
-								<button type="button" ng-click="remove(user.id)"
+								<button type="button" ng-click="deleteUserById(user.id)"
 									class="btn btn-danger custom-width">Remove</button>
 							</td>
 						</tr>

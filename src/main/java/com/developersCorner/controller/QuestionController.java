@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +21,14 @@ import com.developersCorner.service.QuestionService;
 @RequestMapping(value = "/user")
 public class QuestionController {
 	
-	@Autowired
-	QuestionService questionService;
 	
+	private final QuestionService questionService;
+	
+	public QuestionController(QuestionService questionService) {
+		super();
+		this.questionService = questionService;
+	}
+
 	@RequestMapping(value = "/questions", method = RequestMethod.GET)
 	public ResponseEntity<List<Question>> listQuestions() throws Exception {
 		List<Question> questions = questionService.findAllQuestions();

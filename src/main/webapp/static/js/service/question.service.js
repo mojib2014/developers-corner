@@ -7,8 +7,9 @@ angular.module('developersCorner').factory("QuestionService", ["$http", "$q", fu
 	
 	const factory = {
 		fetchAllUserQuestions,
-		editUserQuestion,
-		deleteUserQuestion
+		updateUserQuestion,
+		deleteUserQuestion,
+		getQuestionById
 	}
 	
 	return factory;
@@ -23,7 +24,17 @@ angular.module('developersCorner').factory("QuestionService", ["$http", "$q", fu
 		return defered.promise;
 	}
 	
-	function editUserQuestion(updates) {
+	function getQuestionById(questionId) {
+		const defered = $q.defer();
+		
+			$http.get(URL + `/${questionId}`)
+			.then((res) => defered.resolve(res.data))
+			.catch((err) => defered.reject(err));
+		
+		return defered.promise;
+	}
+	
+	function updateUserQuestion(updates) {
 		const defered = $q.defer();
 		updates.userId = updates.user.id;
 		
