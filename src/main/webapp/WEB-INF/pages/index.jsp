@@ -1,4 +1,4 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <!DOCTYPE html>
@@ -19,8 +19,8 @@
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
-					<li ng-show="isLoggedIn"><a href="#">Logout</a></li>
+					<li id="login"><a href="/login">Login</a></li>
+					<li id="logout"><a href="#">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>
@@ -38,7 +38,8 @@
 				<div class="chat-btn container mb-4">
 					<button class="btn btn-primary chat-btn">Chat</button>
 				</div>
-				<aside class="col col-2 your-status aside-left shadow-lg p-3 bg-body rounded">
+				<aside
+					class="col col-2 your-status aside-left shadow-lg p-3 bg-body rounded">
 					<h2>Your Status</h2>
 				</aside>
 				<section class="col col-8 ask-question-form possible-solutions">
@@ -51,11 +52,12 @@
 								aria-describedby="basic-addon1" required />
 						</div>
 						<div class="mb-3">
-							<input type="radio" id="student" name="role" value="student" class="button btn-sm btn-info student-btn" required />
-							<label class="mr-3" for="student">I'm a Student</label>
-							<input type="radio" id="mentor" name="role" value="mentor" class="button btn-sm btn-info mentor-btn" required />
-							<label for="mentor">I'm a
-								Mentor</label>
+							<input type="radio" id="student" name="role" value="student"
+								class="button btn-sm btn-info student-btn" required /> <label
+								class="mr-3" for="student">I'm a Student</label> <input
+								type="radio" id="mentor" name="role" value="mentor"
+								class="button btn-sm btn-info mentor-btn" required /> <label
+								for="mentor">I'm a Mentor</label>
 						</div>
 						<div class="input-group mb-3">
 							<span class="input-group-text" id="basic-addon1">Tags</span> <input
@@ -67,12 +69,12 @@
 								placeholder="Enter a topic you wanna search for" required></textarea>
 						</div>
 						<div class="form-actions floatRight">
-							<input class="btn btn-primary" type="submit"
-								value="Go"/>
+							<input class="btn btn-primary" type="submit" value="Go" />
 						</div>
 					</form>
 				</section>
-				<aside class="col col-2 users-online aside-right shadow-lg p-3 bg-body rounded">
+				<aside
+					class="col col-2 users-online aside-right shadow-lg p-3 bg-body rounded">
 					<h2>Users Online</h2>
 				</aside>
 			</article>

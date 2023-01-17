@@ -16,6 +16,8 @@
 	type="text/javascript" defer></script>
 <script src="/static/js/service/profile.service.js"
 	type="text/javascript" defer></script>
+<script src="/static/js/service/user.service.js"
+	type="text/javascript" defer></script>
 <script src="/static/js/activeNavLinks.js" type="text/javascript" defer></script>
 <link href="/static/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css">
@@ -30,7 +32,7 @@
 				<ul>
 					<li><a href="/">Home</a></li>
 					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
-					<li ng-show="isLoggedIn"><a href="#">Logout</a></li>
+					<li ng-show="isLoggedIn"><a href="#" ng-click="logout()">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>

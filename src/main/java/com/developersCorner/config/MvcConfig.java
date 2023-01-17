@@ -29,7 +29,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.developersCorner"})
+@ComponentScan({"com.developersCorner.controller"})
 public class MvcConfig implements WebMvcConfigurer {
 	 @Override
 	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -63,7 +63,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		
+//		registry.addConverter((Converter<?, ?>) new LocalDateTimeConverter());
 	}
 
 	@Override

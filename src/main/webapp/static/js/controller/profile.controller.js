@@ -2,18 +2,26 @@
  * 
  */
 
-angular.module('developersCorner').controller("ProfileController", ["$scope", "ProfileService", function($scope, ProfileService) {
+angular.module('developersCorner').controller("ProfileController", ["$scope", "ProfileService", "AuthService", function($scope, ProfileService, AuthService) {
 	$scope.user = null;
 	$scope.isLoggedIn = false;
 	$scope.showModal = false;
 	$scope.getUserProfile = getUserProfile;
 	$scope.editUserProfile = editUserProfile;
 	$scope.deleteUserProfile = deleteUserProfile;
+	$scope.logout = logout;
 	$scope.openModal = openModal;
 	$scope.closeModal = closeModal;
 
-	getUserProfile(1);
+	async function init() {
+		const user = await AuthService.getCurrentUser();
+		if(user) $scope.isLoggedIn = true;
+		if(!user) $scope.isLoggedIn = false;
+		getUserProfile(user.id);
+	}
 
+	init();
+	
 	function getUserProfile(userId) {
 		ProfileService.getUserProfile(userId)
 			.then((data) => {
@@ -28,7 +36,7 @@ angular.module('developersCorner').controller("ProfileController", ["$scope", "P
 				getUserProfile(user.id);
 				closeModal();
 			})
-			.then((err) => console.log(err));
+			.then((err) => console.log(err.message));
 	}
 	function deleteUserProfile(userId) {
 		ProfileService.deleteUserProfile(userId)
@@ -36,6 +44,10 @@ angular.module('developersCorner').controller("ProfileController", ["$scope", "P
 				console.log(data);
 			})
 			.then((err) => console.log(err));
+	}
+	
+	function logout() {
+		AuthService.logout();
 	}
 
 	function openModal(question) {

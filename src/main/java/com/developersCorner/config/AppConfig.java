@@ -1,36 +1,30 @@
 package com.developersCorner.config;
 
-import com.developersCorner.dao.UserDao;
+import com.developersCorner.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@ComponentScan(basePackages = "com.developersCorner")
 public class AppConfig {
 
-	private final UserDao userDao;
+	private final CustomUserDetailsService detialsService;
 	
-	public AppConfig(UserDao userDao) {
-		this.userDao = userDao;
+	public AppConfig(CustomUserDetailsService detialsService) {
+		this.detialsService = detialsService;
 	}
-	
-	 @Bean
-	  public UserDetailsService userDetailsService() {
-	    return username -> userDao.findByEmail(username)
-	        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-	  }
 
 	  @Bean
 	  public AuthenticationProvider authenticationProvider() {
 	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-	    authProvider.setUserDetailsService(userDetailsService());
+	    authProvider.setUserDetailsService(detialsService);
 	    authProvider.setPasswordEncoder(passwordEncoder());
 	    return authProvider;
 	  }

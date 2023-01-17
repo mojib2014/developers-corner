@@ -21,8 +21,8 @@
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 						<li><a href="/">Home</a></li>
-					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
-					<li ng-show="isLoggedIn"><a href="#">Logout</a></li>
+					<li style="display: ${!user.token ? "block" : "none"}"><a href="/login">Login</a></li>
+					<li><a id="logout" href="#">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>
@@ -59,6 +59,7 @@
 			<input class="btn btn-primary" type="submit" value="Login" />
 			</div>
 		</form:form>
+		<h1 id="token" style="display: none;">${user.token}</h1>
 	</main>
 
 	<footer>
@@ -66,5 +67,16 @@
 			<p>©DevelopersCorner 2023 All rights reserved</p>
 		</div>
 	</footer>
+	
+	<script>
+		const tokenElement = document.querySelector("#token");
+		const logoutAnchor = document.querySelector("#logout");
+		window.localStorage.setItem('token', JSON.stringify(tokenElement.innerText));
+		
+		logoutAnchor.addEventListener('click', () => {
+			localStorage.removeItem('token');
+		});
+		
+	</script>
 </body>
 </html>

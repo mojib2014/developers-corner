@@ -28,7 +28,15 @@ angular.module('developersCorner').factory('ProfileService', ["$http", "$q", fun
 	function editUserProfile(user) {
 		const defered = $q.defer();
 		
-		$http.put(URL + user.id, user)
+		const updates = {
+			firstName: user.firstName,
+			lastName: user.lastName,
+			nickName: user.nickName,
+			email: user.email,
+			password: user.password,
+			type: user.type
+		}
+		$http.put(URL + user.id, updates)
 			.then((res) => {
 				defered.resolve(res.data);
 			})

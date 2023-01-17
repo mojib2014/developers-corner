@@ -4,7 +4,7 @@
 
 angular.module('developersCorner').factory('AuthService', AuthService);
 
-function AuthService($http, $q, jwtHelper) {
+function AuthService($http, $q, jwtHelper, UserService) {
 	const URL = 'http://localhost:8080/auth';
 
 	const factory = {
@@ -46,9 +46,12 @@ function AuthService($http, $q, jwtHelper) {
 		window.location = "/login";
 	}
 
-	function getCurrentUser() {
+	async function getCurrentUser() {
 		const token = getToken();
-		return token !== null ? jwtHelper.decodeToken(token) : null;
+		const email =  token !== null ? jwtHelper.decodeToken(token).sub : null;
+		const user = await UserService.getUserByEmail(email);
+
+		return user;
 	}
 	
 	function getToken() {

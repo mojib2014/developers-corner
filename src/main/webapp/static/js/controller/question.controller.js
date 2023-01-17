@@ -2,21 +2,27 @@
  * 
  */
 'use strict';
-angular.module('developersCorner').controller('QuestionController', ["$scope", "QuestionService", function($scope, QuestionService) {
+angular.module('developersCorner').controller('QuestionController', ["$scope", "QuestionService", "AuthService", function($scope, QuestionService, AuthService) {
 	$scope.questions = [];
 	$scope.question = { id: null, username: '', role:'', tags: '', question: '', userId: null };
 	$scope.showModal = false;
+	$scope.isLoggedIn = false;
 	$scope.updateUserQuestion = updateUserQuestion;
 	$scope.deleteUserQuestion = deleteUserQuestion;
+	$scope.logout = logout;
 	$scope.openModal = openModal;
 	$scope.closeModal = closeModal;
 	
 	fetchAllUserQuestions();
 	
-	function fetchAllUserQuestions() {
-			QuestionService.fetchAllUserQuestions(1)
+	async function fetchAllUserQuestions() {
+		const user = await AuthService.getCurrentUser();
+		if(user) $scope.isLoggedIn = true;
+		if(!user) $scope.isLoggedIn = false;
+
+			QuestionService.fetchAllUserQuestions(user.id)
 				.then((data) => {
-					console.log(data);
+					console.log("questions: ", data);
 					$scope.questions = data
 					})
 				.catch((err) => console.log(err));
@@ -38,6 +44,10 @@ angular.module('developersCorner').controller('QuestionController', ["$scope", "
 				$scope.question = data;
 			})
 			.catch((err) => console.log(err));
+	}
+	
+	function logout() {
+		AuthService.logout();
 	}
 	
 	function openModal(question) {

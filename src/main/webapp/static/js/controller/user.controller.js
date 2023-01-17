@@ -10,6 +10,7 @@ function UserController($scope, UserService, AuthService) {
 
 	$scope.user = { id: null, firstName: '', lastName: '', nickName: '', type: '', email: '', password: '' };
 	$scope.users = [];
+	$scope.isLoggedIn = false;
 	$scope.submit = submit;
 	$scope.getCurrentUser = getCurrentUser;
 	$scope.login = login;
@@ -19,6 +20,7 @@ function UserController($scope, UserService, AuthService) {
 	$scope.logout = logout;
 
 	fetchAllUsers();
+	getCurrentUser();
 
 	function fetchAllUsers() {
 		UserService.fetchAllUsers()
@@ -60,7 +62,10 @@ function UserController($scope, UserService, AuthService) {
 	}
 	
 	function getCurrentUser() {
-		return AuthService.getCurrentUser();
+		const user = AuthService.getCurrentUser();
+		if(user) $scope.isLoggedIn = true;
+		if(!user) $scope.isLoggedIn = false;
+		return user;
 	}
 	
 	function logout() {
@@ -70,7 +75,7 @@ function UserController($scope, UserService, AuthService) {
 	function submit() {
 		if ($scope.user.id === null) {
 			registerUser($scope.user);
-		/*	setTimeout(() => window.location = "/", 2000);*/
+		setTimeout(() => window.location = "/", 2000);
 		} else {
 			console.log('User updated with id ', $scope.user.id);
 		}

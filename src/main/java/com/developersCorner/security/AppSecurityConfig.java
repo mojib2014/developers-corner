@@ -27,7 +27,7 @@ public class AppSecurityConfig {
 	     .csrf()
 	     .disable()
 	     .authorizeRequests()
-	     .antMatchers("/auth/**")
+	     .antMatchers("/auth/**", "/", "/login", "/register", "/static/**", "/questions", "/profile")
 	     .permitAll()
 	     .anyRequest()
 	     .authenticated()

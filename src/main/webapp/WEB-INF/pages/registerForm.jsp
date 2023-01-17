@@ -30,8 +30,8 @@
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li ng-show="!currentUser"><a href="/login">Login</a></li>
-					<li ng-show="currentUser"><a href="#" ng-click="logout()">Logout</a></li>
+					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
+					<li ng-show="isLoggedIn"><a href="#" ng-click="logout()">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>

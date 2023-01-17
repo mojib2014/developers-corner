@@ -12,6 +12,8 @@
 <script type="text/javascript" src="/static/js/app.module.js"></script>
 <script src="/static/js/service/auth.service.js" defer
 	type="text/javascript"></script>
+<script src="/static/js/service/user.service.js" defer
+	type="text/javascript"></script>
 <script type="text/javascript"
 	src="/static/js/controller/question.controller.js" defer></script>
 <script type="text/javascript"
@@ -22,15 +24,15 @@
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
 <title>Developers Corner | Questions</title>
 </head>
-<body data-ng-app="developersCorner" class="ng-cloak">
+<body data-ng-app="developersCorner" class="ng-cloak" ng-controller="QuestionController">
 	<header>
 		<div class="container">
 			<nav>
 				<a class="logo" href="/">Developers Corner</a>
 				<ul>
 					<li><a href="/">Home</a></li>
-					<li ng-show="!currentUser"><a href="/login">Login</a></li>
-					<li ng-show="currentUser"><a href="#" ng-click="logout()">Logout</a></li>
+					<li ng-show="!isLoggedIn"><a href="/login">Login</a></li>
+					<li ng-show="isLoggedIn"><a href="#" ng-click="logout()">Logout</a></li>
 					<li><a href="/questions">Questions</a></li>
 					<li><a href="/register">Register</a></li>
 					<li><a href="/profile">Profile</a></li>
@@ -38,10 +40,10 @@
 			</nav>
 		</div>
 	</header>
-
-	<main class="main" ng-controller="QuestionController">
+	<main class="main">
 		<div class="container panel panel-default mt-5">
 			<h1 class="mb-4">Your questions</h1>
+<h1>{{isLoggedIn}}</h1>
 			<table class="table table-hover">
 				<thead>
 					<tr>
