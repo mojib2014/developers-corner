@@ -8,11 +8,11 @@ import javax.validation.constraints.Size;
 public class UserRegistrationDto {
 
 	@NotNull(message = "First Name is required and must be at least 5 characters long")
-	@Size(min = 5, max = 20)
+	@Size(min = 5, max = 20, message = "Last Name must be between 5 to 20 charactars long.")
 	private String firstName;
 
 	@NotNull(message = "Last Name is required and must be at least 5 characters long")
-	@Size(min = 5, max = 20)
+	@Size(min = 5, max = 20, message = "Last Name must be between 5 to 20 charactars long.")
 	private String lastName;
 
 	private String nickName;
@@ -21,28 +21,29 @@ public class UserRegistrationDto {
 	private String email;
 
 	@NotNull(message = "Password is required and must be at least 6 characters long")
-	@Size(min = 6, max = 20)
+	@Size(min = 6, max = 20, message = "Password must be between 6 to 20 charactars long.")
 	private String password;
 	
-	@NotNull(message = "Role is a required field")
-	private String role;
+	@NotNull(message = "Type is a required field")
+	private String type;
 
 	public UserRegistrationDto() {
 	}
 
 	public UserRegistrationDto(
-			@NotNull(message = "First Name is required and must be at least 5 characters long") @Size(min = 5, max = 20) String firstName,
-			@NotNull(message = "Last Name is required and must be at least 5 characters long") @Size(min = 5, max = 20) String lastName,
-			String nickName, @NotNull(message = "email is required and must be a valid email") String email,
-			@NotNull(message = "Password is required and must be at least 6 characters long") @Size(min = 6, max = 20) String password,
-			@NotNull(message = "Role is a required field") String role) {
+			String firstName,
+			String lastName,
+			String nickName,
+			String email,
+			String password,
+			String type) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.nickName = nickName;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.type = type;
 	}
 
 
@@ -87,17 +88,17 @@ public class UserRegistrationDto {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public String getType() {
+		return type;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, lastName, nickName, password, role);
+		return Objects.hash(email, firstName, lastName, nickName, password, type);
 	}
 
 	@Override
@@ -111,12 +112,12 @@ public class UserRegistrationDto {
 		UserRegistrationDto other = (UserRegistrationDto) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(nickName, other.nickName)
-				&& Objects.equals(password, other.password) && Objects.equals(role, other.role);
+				&& Objects.equals(password, other.password) && Objects.equals(type, other.type);
 	}
 
 	@Override
 	public String toString() {
 		return "UserRegistrationDto [firstName=" + firstName + ", lastName=" + lastName + ", nickName=" + nickName
-				+ ", email=" + email + ", password=" + password + ", role=" + role + "]";
+				+ ", email=" + email + ", password=" + password + ", type=" + type + "]";
 	}
 }

@@ -10,6 +10,8 @@ const chatBtn = document.querySelector(".chat-btn");
 const checkinForm = document.querySelector("#check-in-form");
 const possobleSolutionsContainer = document.querySelector('.possible-solutions');
 const yourStatusContainer = document.querySelector('.your-status');
+const login = document.querySelector('#login');
+const logout = document.querySelector('#logout');
 
 // User role (Student or Mentor)
 let role = "";
@@ -76,8 +78,69 @@ const generateHtmlForStackOverflowSearchQuery = (items) => {
 	possobleSolutionsContainer.replaceChildren(solutionsContainer);
 }
 
-// Generate HTML form MDN Query
+// Generate HTML for MDN Query
 const generateHtmlForMdnQuery = (items) => {
+	
+}
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
+async function getCurrentUser(payload) {
+	console.log(payload);
+	const res = await fetch("http://localhost:8080/users/email/" + payload.sub, {
+		method: "GET",
+		mode: "cors",
+		credentials: 'same-origin',
+		headers: {
+			'Authorization': 'Bearer '+localStorage.getItem('token'), 
+			'Content-Type': 'application/json',
+		}
+	});
+	return await res.json();
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+	const user = await getCurrentUser(parseJwt(localStorage.getItem('token')));
+	console.log('dom loaded', user);
+	login.style.display = user ? "none" : "block";
+	logout.style.display = user ? "block" : "none";
+	
+	logout.addEventListener('click', () => {
+		localStorage.removeItem('token');
+		window.location = "/login"
+	});
+
+});
+
+const saveQuestionToDB = async (formData) => {
+	const token = localStorage.getItem('token');
+	const user = await getCurrentUser(parseJwt(token));
+
+	const question = {
+		username: formData.get("username"),
+		tags: formData.get("tags"),
+		question: formData.get("topic"),
+		userId: user.id,
+	};
+	
+	fetch("http://localhost:8080/user/questions", {
+		method: "POST",
+		mode: "cors",
+		credentials: 'same-origin',
+		body: JSON.stringify(question),
+		headers: {
+			'Authorization': 'Bearer '+localStorage.getItem('token'),
+			'Content-Type': 'application/json'
+		}
+	});
 	
 }
 
@@ -86,6 +149,7 @@ const generateHtmlForMdnQuery = (items) => {
 checkinForm.addEventListener('submit', async (e) => {
 	e.preventDefault();
 	const formData = new FormData(checkinForm);
+	saveQuestionToDB(formData);
 	const query = formData.get('topic');
 	const tags = formData.get('tags');
 	role = formData.get('role');

@@ -43,6 +43,7 @@ public class HibernateConfig {
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
 		dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
 		dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+
 		return dataSource;
 	}
 
@@ -52,12 +53,13 @@ public class HibernateConfig {
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 		properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
 		properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-
+		properties.put("hibernate.generate-ddl", environment.getRequiredProperty("hibernate.generate-ddl"));
+		properties.put("hibernate.ddl-auto", environment.getRequiredProperty("hibernate.ddl-auto"));
+		properties.put("hibernate.script.location", environment.getRequiredProperty("hibernate.script.location"));
 		return properties;
 	}
 
 	@Bean
-
 	@Autowired
 	public HibernateTransactionManager transactionManager(SessionFactory s) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();

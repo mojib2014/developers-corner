@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +21,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.developersCorner.dto.AuthResponse;
 import com.developersCorner.dto.UserLoginDto;
 import com.developersCorner.dto.UserRegistrationDto;
 import com.developersCorner.model.User;
+import com.developersCorner.service.AuthService;
 import com.developersCorner.service.UserService;
 
 
 @RestController
 public class UserController {
 
-	@Autowired
-	private UserService userService;
-	
+	private final AuthService authService;
+	private final UserService userService;
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	public UserController(AuthService authService, UserService userService) {
+		this.authService = authService;
+		this.userService = userService;
+	}
 	
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -45,7 +50,7 @@ public class UserController {
 	//----------------- Register user ----------------------------
 	@RequestMapping(value = "/users/register", method = RequestMethod.POST)
 	public ResponseEntity<Void> register(@RequestBody @Valid UserRegistrationDto form) {
-		logger.info("register contrroler {}", form);
+		logger.info("Registering user {}", form);
 		userService.saveUser(form);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
@@ -63,11 +68,12 @@ public class UserController {
 			 mv.setViewName("loginForm");
 			return mv;
 		}else {
-			UserLoginDto newUser = new UserLoginDto(form.getEmail(), form.getPassword());
+			logger.info("Loggin in user {}", form);
+			AuthResponse authResponse = authService.authenticate(form);
+//			UserLoginDto newUser = new UserLoginDto(form.getEmail(), form.getPassword());
 			
-			logger.info("Logging in {}", form);
 			mv.setViewName("loginForm");
-			mv.addObject("user", newUser.getEmail());
+			mv.addObject("user", authResponse);
 			
 			return mv;			
 		}
@@ -76,7 +82,7 @@ public class UserController {
 	
 	//-------------------- Retrieve All Users ---------------------------------
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<List<User>> getAllUsers(Exception e) {
 		List<User> users = userService.findAllUsers();
 		
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
@@ -101,6 +107,7 @@ public class UserController {
 	//----------------------- Update a user by id -------------------
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateUserById(@PathVariable(value = "id") Long id, @RequestBody @Valid UserRegistrationDto dto) {
+		System.out.println("updating -------------" + dto.toString());
 		userService.updateUser(id, dto);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
